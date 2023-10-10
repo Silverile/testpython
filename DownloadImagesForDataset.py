@@ -1,7 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
 import os
-import json
+import tkinter as tk
+from tkinter import ttk
+from tkinter import Entry, Button, Label
+import threading
 
 
 def fetch_images(query, limit):
@@ -30,5 +33,34 @@ def fetch_images(query, limit):
     print(f"Finished downloading {downloaded} images for query: {query}")
 
 
-# Fetch 10 random object images
-fetch_images("objects", 11)
+# # Fetch 10 random object images
+# fetch_images("objects", 11)
+
+
+# Function to be called when the button is clicked
+def on_button_click():
+    query = query_entry.get()
+    limit = int(limit_entry.get())
+    threading.Thread(target=fetch_images, args=(query, limit)).start()
+
+
+# Create the main window
+root = tk.Tk()
+root.title("Image Downloader")
+
+# Create widgets
+query_label = Label(root, text="Enter Query:")
+query_entry = Entry(root)
+limit_label = Label(root, text="Enter Limit:")
+limit_entry = Entry(root)
+search_button = Button(root, text="Search", command=on_button_click)
+
+# Place widgets on the grid
+query_label.grid(row=0, column=0)
+query_entry.grid(row=0, column=1)
+limit_label.grid(row=1, column=0)
+limit_entry.grid(row=1, column=1)
+search_button.grid(row=2, columnspan=2)
+
+# Run the Tkinter event loop
+root.mainloop()
