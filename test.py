@@ -1,19 +1,36 @@
-import tensorflow as tf
-mnist = tf.keras.datasets.mnist
+def test():
+    bob = ['Bob Smith', 42, 30000, 'software']
+    sue = ['Sue Johnes', 46, 40000, 'hardware']
 
-(x_train, y_train),(x_test, y_test) = mnist.load_data()
-x_train, x_test = x_train / 255.0, x_test / 255.0
+    people = [bob, sue]
+    for person in people:
+        print(person)
+    print(people[1][0])
+    for person in people:
+        print(person[0].split()[-1])
+        person[2] *= 1.20
+    for person in people:
+        print(person[2])
 
-model = tf.keras.models.Sequential([
-    tf.keras.layers.Flatten(input_shape=(28, 28)),
-    tf.keras.layers.Dense(128, activation='relu'),
-    tf.keras.layers.Dropout(0.2),
-    tf.keras.layers.Dense(10, activation='softmax')
-])
+    pays = [person[2] for person in people]
+    print(pays)
 
-model.compile(optimizer='adam',
-              loss='sparse_categorical_crossentropy',
-              metrics=['accuracy'])
+    pays = map((lambda x: x[2]), people)
+    print(list(pays))
 
-model.fit(x_train, y_train, epochs=5)
-model.evaluate(x_test, y_test)
+    people.append(['Tom', 50, 0, None])
+    print(len(people))
+    print(people[-1][0])
+
+    bob2 = {'name': {'first': 'Bob', 'last': 'Smith'},
+            'age': 42,
+            'job': ['software', 'writing'],
+            'pay': (40000, 50000)
+            }
+
+    print(bob2['name'])
+    print(bob2['name']['last'])
+    print(bob2['pay'][0])
+
+
+test()

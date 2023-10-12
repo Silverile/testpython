@@ -10,7 +10,23 @@ class GoogleImagesSpider(scrapy.Spider):
         super(GoogleImagesSpider, self).__init__(*args, **kwargs)
         self.query = query
         self.num_images = int(num_images)
-        self.start_urls = [f'https://www.google.com/search?q={self.query}&tbm=isch']
+
+    def start_requests(self):
+        # Google image search URL
+        google_url = f'https://www.google.com/search?q={self.query}&tbm=isch'
+
+        # Additional URLs for example
+        additional_urls = [
+            'http://example.com/page1',
+            'http://example.com/page2',
+        ]
+
+        # Create requests for Google image search
+        yield scrapy.Request(google_url, self.parse, meta={'proxy': 'http://your_proxy_here'})
+
+        # Create requests for additional URLs
+        for url in additional_urls:
+            yield scrapy.Request(url, self.parse, meta={'proxy': 'http://your_proxy_here'})
 
     def parse(self, response):
         # Extract image URLs from JavaScript data
