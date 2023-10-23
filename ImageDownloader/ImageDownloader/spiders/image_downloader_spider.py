@@ -5,6 +5,8 @@ import os
 from urllib.parse import parse_qs, urlparse
 
 
+# scrapy crawl yandex_images -a query="search query" -a num_images=10
+
 class YandexImagesSpider(scrapy.Spider):
     name = 'yandex_images'
 
@@ -44,7 +46,7 @@ class YandexImagesSpider(scrapy.Spider):
 
         # Download images
         for i, img_url in enumerate(image_urls[:self.num_images]):
-            logging.info("Downloading image %d from URL: %s", i+1, img_url)
+            logging.info("Downloading image %d from URL: %s", i + 1, img_url)
             yield scrapy.Request(img_url, callback=self.save_image, meta={'folder_path': folder_path, 'img_num': i})
 
     def save_image(self, response):
